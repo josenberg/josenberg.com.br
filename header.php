@@ -35,13 +35,6 @@
 			?>
 		</div><!-- .site-branding -->
 
-		<button id="site-navigation-toggle" class="menu-toggle" >
-			<i class="fa fa-bars menu-toggle-icon" aria-hidden="true"></i>
-			<span class="menu-toggle-text">
-				<?php esc_html_e( 'Menu', 'integer' ); ?>
-			</span>
-		</button><!-- #site-navigation-toggle -->
-
 		<nav id="site-navigation" class="main-navigation" role="navigation">
 			<?php
 				wp_nav_menu(
