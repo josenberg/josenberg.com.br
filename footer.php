@@ -27,9 +27,7 @@
 			<?php endif; ?>
 
 			<div class="site-info">
-
-				<?php integer_footer_text(); ?>
-
+				<p> Just a blog.</p>
 			</div><!-- .site-info -->
 
 	</footer><!-- #colophon -->
