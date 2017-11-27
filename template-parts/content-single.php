@@ -9,8 +9,6 @@
 
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 
-	<?php integer_entry_meta_before_title(); ?>
-
 	<header class="entry-header">
 
 		<?php the_title( '<h1 class="entry-title">', '</h1>' ); ?>
@@ -33,9 +31,5 @@
 		?>
 
 	</div><!-- .entry-content -->
-
-	<?php integer_entry_footer_widgets(); ?>
-
-	<?php integer_entry_meta_after_content(); ?>
 
 </article><!-- #post-## -->
