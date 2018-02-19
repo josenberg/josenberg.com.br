@@ -94,3 +94,10 @@ img.aligncenter {
 	max-height:12px;
 	margin:0 !important;
 }
+
+pre {
+	overflow: auto;
+	background-color: black;
+	color: #f6f6f6;
+	padding: 10px;
+}
