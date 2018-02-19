@@ -101,3 +101,11 @@ pre {
 	color: #f6f6f6;
 	padding: 10px;
 }
+
+#container {
+	width: 960px
+}
+
+#content {
+	width: 940px;
+}
