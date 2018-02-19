@@ -1,45 +1,67 @@
 <?php
 /**
- * The template for displaying archive pages.
+ * Archive Template 
  *
- * @package Integer
+ * Displays an Archive index of post-type items. Other more specific archive templates 
+ * may override the display of this template for example the category.php.
+ *
+ * @package Thematic
+ * @subpackage Templates
+ *
+ * @link http://codex.wordpress.org/Template_Hierarchy Codex: Template Hierarchy
  */
 
-get_header(); ?>
+	// calling the header.php
+	get_header();
 
-<div id="main" class="site-main blogroll <?php integer_grid_class(); ?>" role="main">
+	// action hook for placing content above #container
+	thematic_abovecontainer();
+?>
 
-	<?php if ( have_posts() ) : ?>
+		<div id="container">
 
-		<header class="page-header">
-			
-			<?php the_archive_title( '<h1 class="page-header__title">', '</h1>' ); ?>
-			
-			<?php the_archive_description( '<div class="page-header__description">', '</div>' ); ?>
-			
-		</header><!-- .page-header -->
+		<?php 
+			// action hook for placing content above #content
+			thematic_abovecontent();
 
-		<?php while ( have_posts() ) : the_post(); ?>
+			// filter for manipulating the element that wraps the content 
+			echo apply_filters( 'thematic_open_id_content', '<div id="content">' . "\n\n" ); 
 
-			<?php get_template_part( 'template-parts/content' ); ?>
+			// displays the page title
+			thematic_page_title();
 
-		<?php endwhile; ?>
+			// create the navigation above the content
+			thematic_navigation_above();
 
-		<?php
-			the_posts_pagination( array(
-				'prev_text' => 'Newer',
-				'next_text' => 'Older',
-			) );
+        	// action hook for placing content above the archive loop
+        	thematic_above_archiveloop();
+
+			// action hook creating the archive loop
+			thematic_archiveloop();
+
+        	// action hook for placing content below the archive loop
+        	thematic_below_archiveloop();
+
+			// create the navigation below the content
+			thematic_navigation_below();
 		?>
 
-	<?php else : ?>
+		    </div><!-- #content -->
 
-		<?php get_template_part( 'template-parts/content', 'none' ); ?>
+			<?php 
+				// action hook for placing content below #content
+		    	thematic_belowcontent(); 
+		    ?> 
 
-	<?php endif; ?>
+		</div><!-- #container -->
 
-</div><!-- #main -->
+<?php 
+	// action hook for placing content below #container
+	thematic_belowcontainer();
 
-<?php get_sidebar(); ?>
+	// calling the standard sidebar 
+	thematic_sidebar();
 
-<?php get_footer();
+	// calling footer.php
+	get_footer();
+?>

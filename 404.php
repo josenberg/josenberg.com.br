@@ -1,32 +1,65 @@
 <?php
 /**
- * The template for displaying 404 pages (not found).
+ * Error 404 Page Template
  *
- * @package Integer
+ * Displays a "Not Found" message and a search form when a 404 Error is encountered.
+ *
+ * @package Thematic
+ * @subpackage Templates
+ *
+ * @link http://codex.wordpress.org/Creating_an_Error_404_Page Codex: Create a 404 Page
  */
 
-get_header(); ?>
+	// calling the header.php
+	get_header();
 
-<div id="main" class="site-main error404" role="main">
+	// action hook for placing content above #container
+	thematic_abovecontainer();
+?>
 
-	<div class="not-found">
+		<div id="container">
 
-		<header class="page-header">
-			
-			<h1 class="page-header__title"><?php esc_html_e( 'Oops! That page can&rsquo;t be found.', 'integer' ); ?></h1>
-			
-		</header>
-		
-		<div class="not-found__content">
-			
-			<p><?php esc_html_e( 'Looks like the page you are looking for has been moved or does not exist. Click on the site logo to go to the homepage or try searching.', 'integer' ); ?></p>
-			
-			<p><?php get_search_form(); ?></p>
-			
-		</div>
+			<?php 
+				// action hook for placing content above #content
+				thematic_abovecontent();
 
-	</div>
+				// filter for manipulating the element that wraps the content 
+				echo apply_filters( 'thematic_open_id_content', '<div id="content">' . "\n\n" );
 
-</div>
+				// action hook for placing content above #post
+				thematic_abovepost(); 
+			?>
 
-<?php get_footer(); ?>
+				<div id="post-0" class="post error404">
+
+				<?php
+		    		// action hook for placing the 404 content
+    	        	thematic_404()
+    	        ?>
+
+				</div><!-- .post -->
+
+				<?php 
+					// action hook for placing content below #post
+					thematic_belowpost(); 
+				?>
+
+			</div><!-- #content -->
+
+			<?php 
+				// action hook for placing content below #content
+				thematic_belowcontent(); 
+			?> 
+
+		</div><!-- #container -->
+    
+<?php
+	// action hook for placing content below #container
+	thematic_belowcontainer();
+
+	// calling the standard sidebar 
+	thematic_sidebar();
+
+	// calling footer.php
+	get_footer();
+?>

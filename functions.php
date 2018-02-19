@@ -1,307 +1,197 @@
 <?php
 /**
- * Integer functions and definitions.
+ * Theme Functions
  *
- * @package Integer
+ * This file is used by WordPress to initialize the theme.
+ * Thematic is designed to be used as a theme framework and this file should not be modified.
+ * You should use a Child Theme to make your customizations. A sample child theme is provided
+ * as an example in root directory of this theme. You can move it into the wp-content/themes to
+ * enable activation of the child theme. <br>
+ *
+ * Reference:  {@link http://codex.wordpress.org/Child_Themes Codex: Child Themes}
+ * 
+ * @package Thematic
+ * @subpackage ThemeInit
  */
 
-/**
- * The current version of the theme.
- */
-define( 'INTEGER_VERSION', '1.0.2' );
 
 /**
- * Set the content width in pixels, based on the theme's design and stylesheet.
- *
- * Priority 0 to make it available to lower priority callbacks.
- *
- * @global int $content_width
+ * Registers action hook: thematic_init 
+ * 
+ * @since Thematic 1.0
  */
-function integer_content_width() {
-	$GLOBALS['content_width'] = apply_filters( 'integer_content_width', 2560 );
+function thematic_init() {
+	do_action('thematic_init');
 }
-add_action( 'after_setup_theme', 'integer_content_width', 0 );
 
-if ( ! function_exists( 'integer_setup' ) ) :
+
 /**
- * Sets up defaults and registers support for various features.
+ * thematic_theme_setup & childtheme_override_theme_setup
  *
- * Note that this function is hooked into the after_setup_theme hook,
- * which runs before the init hook. The init hook is too late for some
- * features, such as indicating support for post thumbnails.
- */
-function integer_setup() {
-	// Make the theme available for translation.
-	load_theme_textdomain( 'integer', get_template_directory() . '/languages' );
-
-	 // Add default posts and comments RSS feed links to head.
-	add_theme_support( 'automatic-feed-links' );
-
-	// Let WordPress manage the document title.
-	add_theme_support( 'title-tag' );
-
-	// Enable support for theme logo.
-	add_theme_support( 'custom-logo', array(
-		'width' => 96,
-		'height' => 96,
-		'flex-width' => true,
-		'flex-height' => false,
-		'header-text' => true,
-	) );
-
-	// Enable support for Post Thumbnails on posts and pages.
-	add_theme_support( 'post-thumbnails' );
-
-	// Add necessary image sizes.
-	add_image_size( 'integer-blog-thumbnail', 648, 410, true );
-	add_image_size( 'integer-blog-thumbnail-2x', 1296, 820, true );
-	add_image_size( 'integer-single-thumbnail', 1440, 0, false );
-	add_image_size( 'integer-single-thumbnail-2x', 2880, 0, false );
-
-	// Register menu locations.
-	register_nav_menus( array(
-		'primary' => __( 'Primary', 'integer' ),
-		'footer'  => __( 'Footer',  'integer' ),
-	) );
-
-	// Enable HTML5 markup for the listed features.
-	add_theme_support( 'html5', array(
-		'search-form',
-		'comment-form',
-		'comment-list',
-		'gallery',
-		'caption',
-	) );
-
-	// This theme styles the visual editor to resemble the theme style.
-	add_editor_style( array( 'assets/css/editor-style.css' ) );
-
-	// Add support for selective refresh for widgets.
-	add_theme_support( 'customize-selective-refresh-widgets' );
-
-	// Add Content Options feature.
-	add_theme_support( 'jetpack-content-options', array(
-		'blog-display' => 'content',
-		'post-details' => array(
-			'stylesheet' => 'integer-style',
-			'date' => '.posted-on',
-			'categories' => '.cat-links',
-			'tags' => '.tags-links',
-			'author' => '.byline',
-			'comment' => '.comments-link',
-		),
-		'featured-images' => array(
-			'archive' => true,
-			'archive-default' => true,
-			'post' => true,
-			'post-default' => true,
-			'page' => true,
-			'page-default' => false,
-		),
-	) );
-
-	// Add support for Jetpack responsive videos.
-	add_theme_support( 'jetpack-responsive-videos' );
-
-	// Add support for Pageviews plugin.
-	add_theme_support( 'pageviews' );
-}
-endif;
-add_action( 'after_setup_theme', 'integer_setup' );
-
-/**
- * Register the widget area.
- */
-function integer_widgets_init() {
-	register_sidebar( array(
-		'name'          => __( 'Footer #1', 'integer' ),
-		'id'            => 'sidebar-1',
-		'description'   => '',
-		'before_widget' => '<aside id="%1$s" class="widget %2$s">',
-		'after_widget'  => '</aside>',
-		'before_title'  => '<h4 class="widget-title">',
-		'after_title'   => '</h4>',
-	) );
-	register_sidebar( array(
-		'name'          => __( 'Footer #2', 'integer' ),
-		'id'            => 'sidebar-2',
-		'description'   => '',
-		'before_widget' => '<aside id="%1$s" class="widget %2$s">',
-		'after_widget'  => '</aside>',
-		'before_title'  => '<h4 class="widget-title">',
-		'after_title'   => '</h4>',
-	) );
-	register_sidebar( array(
-		'name'          => __( 'Before Post Content', 'integer' ),
-		'id'            => 'sidebar-3',
-		'description'   => '',
-		'before_widget' => '<aside id="%1$s" class="widget %2$s">',
-		'after_widget'  => '</aside>',
-		'before_title'  => '<h4 class="widget-title">',
-		'after_title'   => '</h4>',
-	) );
-	register_sidebar( array(
-		'name'          => __( 'After Post Content', 'integer' ),
-		'id'            => 'sidebar-4',
-		'description'   => '',
-		'before_widget' => '<aside id="%1$s" class="widget %2$s">',
-		'after_widget'  => '</aside>',
-		'before_title'  => '<h3 class="widget-title">',
-		'after_title'   => '</h3>',
-	) );
-}
-add_action( 'widgets_init', 'integer_widgets_init' );
-
-if ( ! function_exists( 'integer_fonts_url' ) ) :
-/**
- * Register Google fonts for integer.
+ * Override: childtheme_override_theme_setup
  *
- * @return string Google fonts URL for the theme.
+ * @since Thematic 1.0
  */
-function integer_fonts_url() {
-	$fonts_url = '';
-	$fonts     = array();
-	$subsets   = 'latin,latin-ext';
-
+if ( function_exists('childtheme_override_theme_setup') ) {
 	/**
-	 * Translators: If there are characters in your languagethat are not
-	 * supported by Lato, translate this to 'off'.
-	 * Do not translate into your own language.
+	 * @ignore
 	 */
-	if ( 'off' !== _x( 'on', 'Open Sans font: on or off', 'integer' ) ) {
-		$fonts[] = 'Open Sans:400,400i,700,700i,800,800i';
+	function thematic_theme_setup() {
+		childtheme_override_theme_setup();
 	}
-
-	if ( $fonts ) {
-		$fonts_url = add_query_arg( array(
-			'family' => urlencode( implode( '|', $fonts ) ),
-			'subset' => urlencode( $subsets ),
-		), 'https://fonts.googleapis.com/css' );
-	}
-
-	return $fonts_url;
-}
-endif;
-
-/**
- * Enqueue scripts and styles.
- */
-function integer_scripts() {
-	wp_enqueue_style(
-		'integer-fonts',
-		integer_fonts_url()
-	);
-
-	wp_enqueue_style(
-		'font-awesome',
-		get_template_directory_uri() . '/assets/fonts/font-awesome/css/font-awesome.css'
-	);
-
-	wp_enqueue_style(
-		'integer-style',
-		get_stylesheet_uri()
-	);
-
-	wp_style_add_data( 'integer-style', 'rtl', 'replace' );
-
-	wp_enqueue_script(
-		'integer-navigation',
-		get_template_directory_uri() . '/assets/js/navigation.js',
-		array( 'jquery' ),
-		INTEGER_VERSION,
-		true
-	);
-
-	wp_localize_script( 'integer-navigation', 'integerScreenReaderText', array(
-		'menu' => esc_html__( 'Menu', 'integer' ),
-		'close' => esc_html__( 'Close', 'integer' ),
-		'expand' => '<span class="screen-reader-text">' . esc_html__( 'Expand child menu', 'integer' ) . '</span>',
-		'collapse' => '<span class="screen-reader-text">' . esc_html__( 'Collapse child menu', 'integer' ) . '</span>',
-	) );
-
-	wp_enqueue_script(
-		'integer-skip-link-focus-fix',
-		get_template_directory_uri() . '/assets/js/skip-link-focus-fix.js',
-		array(),
-		INTEGER_VERSION,
-		true
-	);
-
-	wp_enqueue_script(
-		'integer-custom',
-		get_template_directory_uri() . '/assets/js/custom.js',
-		array( 'jquery' ),
-		INTEGER_VERSION,
-		true
-	);
-
-	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
-		wp_enqueue_script( 'comment-reply' );
-	}
-
-	/*
-	 * Remove the CSS registered with the Contact Form 7 plugin.
+} else {
+	/**
+	 * thematic_theme_setup
+	 *
+	 * @todo review for impact of deprecations on child themes & fix comment blocks?
+	 * @since Thematic 1.0?
 	 */
-	if ( wp_style_is( 'contact-form-7', 'registered' ) ) {
-		wp_deregister_style( 'contact-form-7' );
+	function thematic_theme_setup() {
+		global $content_width;
+
+		/**
+		 * Set the content width based on the theme's design and stylesheet.
+		 *
+		 * Used to set the width of images and content. Should be equal to the width the theme
+		 * is designed for, generally via the style.css stylesheet.
+		 *
+		 * @since Thematic 1.0
+		 */
+		if ( !isset($content_width) )
+			$content_width = 540;
+   
+		// Legacy feed links handling - @to be removed eventually
+		// If you add theme support for thematic_legacy_feedlinks, thematic_show_rss() and thematic_show_commentsrss() are used instead of add_theme_support( 'automatic-feed-links' )
+		if ( defined( 'THEMATIC_COMPATIBLE_FEEDLINKS' ) ) add_theme_support( 'thematic_legacy_feedlinks' );
+
+		// Legacy comments handling for pages, archives and links
+		// If you add_theme_support for thematic_legacy_comment_handling, Thematic will only show comments on pages with a key/value of "comments"
+		if ( defined( 'THEMATIC_COMPATIBLE_COMMENT_HANDLING' ) ) add_theme_support( 'thematic_legacy_comment_handling' );
+
+		// Legacy body class handling - @to be removed eventually
+		// If you add theme support for thematic_legacy_body_class, Thematic will use thematic_body_class instead of body_class()
+		if ( defined( 'THEMATIC_COMPATIBLE_BODY_CLASS' ) ) add_theme_support( 'thematic_legacy_body_class' );
+
+		// Legacy post class handling - @to be removed eventually
+		// If you add theme support for thematic_legacy_post_class, Thematic will use thematic_body_class instead of post_class()
+		if ( defined( 'THEMATIC_COMPATIBLE_POST_CLASS' ) ) add_theme_support( 'thematic_legacy_post_class' );
+
+		// Legacy post class handling - @to be removed eventually
+		// If you add theme support for thematic_legacy_post_class, Thematic will use it's legacy comment form
+		if ( defined( 'THEMATIC_COMPATIBLE_COMMENT_FORM' ) ) add_theme_support( 'thematic_legacy_comment_form' );
+
+		// Check for MultiSite
+		define( 'THEMATIC_MB', is_multisite()  );
+
+		// Create the feedlinks
+		if ( ! current_theme_supports( 'thematic_legacy_feedlinks' ) )
+ 			add_theme_support( 'automatic-feed-links' );
+ 
+		if ( apply_filters( 'thematic_post_thumbs', true ) )
+			add_theme_support( 'post-thumbnails' );
+ 
+		add_theme_support( 'thematic_superfish' );
+
+		// Path constants
+		define( 'THEMATIC_LIB',  get_template_directory() .  '/library' );
+
+		// Create Theme Options Page
+		require_once ( THEMATIC_LIB . '/extensions/theme-options.php' );
+		
+		// Load legacy functions
+		require_once ( THEMATIC_LIB . '/legacy/deprecated.php' );
+
+		// Load widgets
+		require_once ( THEMATIC_LIB . '/extensions/widgets.php' );
+
+		// Load custom header extensions
+		require_once ( THEMATIC_LIB . '/extensions/header-extensions.php' );
+
+		// Load custom content filters
+		require_once ( THEMATIC_LIB . '/extensions/content-extensions.php' );
+
+		// Load custom Comments filters
+		require_once ( THEMATIC_LIB . '/extensions/comments-extensions.php' );
+
+		// Load custom discussion filters
+		require_once ( THEMATIC_LIB . '/extensions/discussion-extensions.php' );
+
+		// Load custom Widgets
+		require_once ( THEMATIC_LIB . '/extensions/widgets-extensions.php' );
+
+		// Load the Comments Template functions and callbacks
+		require_once ( THEMATIC_LIB . '/extensions/discussion.php' );
+
+		// Load custom sidebar hooks
+		require_once ( THEMATIC_LIB . '/extensions/sidebar-extensions.php' );
+
+		// Load custom footer hooks
+		require_once ( THEMATIC_LIB . '/extensions/footer-extensions.php' );
+
+		// Add Dynamic Contextual Semantic Classes
+		require_once ( THEMATIC_LIB . '/extensions/dynamic-classes.php' );
+
+		// Need a little help from our helper functions
+		require_once ( THEMATIC_LIB . '/extensions/helpers.php' );
+
+		// Load shortcodes
+		require_once ( THEMATIC_LIB . '/extensions/shortcodes.php' );
+
+		// Adds filters for the description/meta content in archive templates
+		add_filter( 'archive_meta', 'wptexturize' );
+		add_filter( 'archive_meta', 'convert_smilies' );
+		add_filter( 'archive_meta', 'convert_chars' );
+		add_filter( 'archive_meta', 'wpautop' );
+
+		// Remove the WordPress Generator - via http://blog.ftwr.co.uk/archives/2007/10/06/improving-the-wordpress-generator/
+		function thematic_remove_generators() {
+ 			return '';
+ 		}
+ 		if ( apply_filters( 'thematic_hide_generators', true ) )
+ 			add_filter( 'the_generator', 'thematic_remove_generators' );
+ 
+		// Translate, if applicable
+		load_theme_textdomain( 'thematic', THEMATIC_LIB . '/languages' );
+
+		$locale = get_locale();
+		$locale_file = THEMATIC_LIB . "/languages/$locale.php";
+		if ( is_readable($locale_file) )
+			require_once ($locale_file);
 	}
 }
-add_action( 'wp_enqueue_scripts', 'integer_scripts' );
+
+add_action('after_setup_theme', 'thematic_theme_setup', 10);
+
 
 /**
- * Enqueue custom scripts for customizer preview screen.
+ * Registers action hook: thematic_child_init
+ * 
+ * @since Thematic 1.0
  */
-function integer_customize_preview_js() {
-	wp_enqueue_script(
-		'integer-customize-preview',
-		get_template_directory_uri() . '/assets/js/customize-preview.js',
-		array( 'customize-preview' ),
-		INTEGER_VERSION,
-		true
-	);
+function thematic_child_init() {
+	do_action('thematic_child_init');
 }
-add_action( 'customize_preview_init', 'integer_customize_preview_js' );
 
-/**
- * Disable Jetpack styles.
- */
-function integer_disable_scripts() {
-	if ( wp_style_is( 'the-neverending-homepage', 'registered' ) ) {
-		wp_deregister_style( 'the-neverending-homepage' );
+add_action('after_setup_theme', 'thematic_child_init', 20);
+
+
+if ( function_exists('childtheme_override_init_navmenu') )  {
+	/**
+	 * @ignore
+	 */
+	 function thematic_init_navmenu() {
+    	childtheme_override_init_navmenu();
+    }
+} else {
+	/**
+	 * Register primary nav menu
+	 * 
+	 * Override: childtheme_override_init_navmenu
+	 * Filter: thematic_primary_menu_id
+	 * Filter: thematic_primary_menu_name
+	 */
+    function thematic_init_navmenu() {
+		register_nav_menu( apply_filters('thematic_primary_menu_id', 'primary-menu'), apply_filters('thematic_primary_menu_name', __( 'Primary Menu', 'thematic' ) ) );
 	}
 }
-add_filter( 'jetpack_implode_frontend_css', '__return_false' );
-add_action( 'wp_enqueue_scripts', 'integer_disable_scripts' );
-
-/**
- * Remove Jetpack Contact Form CSS.
- */
-function integer_disable_jetpack_contact_form_css() {
-	wp_deregister_style( 'grunion.css' );
-}
-add_action( 'wp_print_styles', 'integer_disable_jetpack_contact_form_css' );
-
-/**
- * Custom template tags for this theme.
- */
-require get_template_directory() . '/inc/template-tags.php';
-
-/**
- * Custom functions that act independently of the theme templates.
- */
-require get_template_directory() . '/inc/extras.php';
-
-/**
- * Customizer settings.
- */
-require get_template_directory() . '/inc/customizer.php';
-
-/**
- * Load Jetpack compatibility file.
- */
-require get_template_directory() . '/inc/jetpack.php';
-
-/**
- * Customizer Custom Controls.
- */
-require get_template_directory() . '/inc/class-integer-customize-control-message.php';
+add_action('init', 'thematic_init_navmenu');

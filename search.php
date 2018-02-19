@@ -1,51 +1,101 @@
 <?php
 /**
- * The template for displaying search results pages.
+ * Search Template
  *
- * @package Integer
+ * …
+ * 
+ * @package Thematic
+ * @subpackage Templates
  */
 
-get_header(); ?>
+    // calling the header.php
+    get_header();
 
-<div id="main" class="site-main blogroll blogroll-column" role="main">
+    // action hook for placing content above #container
+    thematic_abovecontainer();
 
-	<?php if ( have_posts() ) : ?>
+?>
 
-		<header class="page-header">
+		<div id="container">
+		
+			<?php 
+	            // action hook for inserting contentabove #content
+				thematic_abovecontent();
+		
+				// filter for manipulating the element that wraps the content 
+				echo apply_filters( 'thematic_open_id_content', '<div id="content">' . "\n\n" );
+							
+				if (have_posts()) {
+	
+	                // displays the page title
+	                thematic_page_title();
+	
+	                // create the navigation above the content
+	                thematic_navigation_above();
+				
+	                // action hook for placing content above the search loop
+	                thematic_above_searchloop();			
+	
+	                // action hook creating the search loop
+	                thematic_searchloop();
+	
+	                // action hook for placing content below the search loop
+	                thematic_below_searchloop();			
+	
+	                // create the navigation below the content
+	                thematic_navigation_below();
+	
+	            } else {
+	            
+	            	// action hook for inserting content above #post
+	           		thematic_abovepost();
+	           ?>
 
-			<h1 class="page-header__title">
-				<?php
-					printf(
-						/* Translators: %s: search term. */
-						esc_html__( 'Search Results for: %s', 'integer' ),
-						'<span>' . get_search_query() . '</span>'
-					);
-				?>
-			</h1>
+				<div id="post-0" class="post noresults">
+					
+					<h1 class="entry-title"><?php _e( 'Nothing Found', 'thematic' ) ?></h1>
+					
+					<div class="entry-content">
+						
+						<p><?php _e( 'Sorry, but nothing matched your search criteria. Please try again with some different keywords.', 'thematic' ) ?></p>
+					
+					</div><!-- .entry-content -->
+					
+					<form id="noresults-searchform" method="get" action="<?php echo home_url() ?>/">
+						
+						<div>
+							
+							<input id="noresults-s" name="s" type="text" value="<?php the_search_query();  ?>" size="40" />
+							
+							<input id="noresults-searchsubmit" name="searchsubmit" type="submit" value="<?php esc_attr_e( 'Find', 'thematic' ) ?>" />
+						
+						</div>
+					
+					</form>
+				
+				</div><!-- #post -->
+	
+	            <?php
+	            	// action hook for inserting content below #post
+	            	thematic_belowpost();
+	            }
+	            ?>
+	            
+			</div><!-- #content -->
+			
+			<?php 
+				// action hook for inserting content below #content
+				thematic_belowcontent(); 
+			?> 
+		</div><!-- #container -->
 
-			<?php get_search_form(); ?>
+<?php 
+    // action hook for placing content below #container
+    thematic_belowcontainer();
 
-		</header><!-- .page-header -->
-
-		<?php while ( have_posts() ) : the_post(); ?>
-
-			<?php get_template_part( 'template-parts/content', 'search' ); ?>
-
-		<?php endwhile; ?>
-
-		<?php
-			the_posts_pagination( array(
-				'prev_text' => 'Newer',
-				'next_text' => 'Older',
-			) );
-		?>
-
-	<?php else : ?>
-
-		<?php get_template_part( 'template-parts/content', 'none' ); ?>
-
-	<?php endif; ?>
-
-</div><!-- #main -->
-
-<?php get_footer();
+    // calling the standard sidebar 
+    thematic_sidebar();
+    
+    // calling footer.php
+    get_footer();
+?>

@@ -1,37 +1,71 @@
 <?php
 /**
- * The main template file.
+ * Index Template
  *
- * @package Integer
+ * This file is required by WordPress to recoginze Thematic as a valid theme.
+ * It is also the default template WordPress will use to display your web site,
+ * when no other applicable templates are present in this theme's root directory
+ * that apply to the query made to the site.
+ * 
+ * WP Codex Reference: http://codex.wordpress.org/Template_Hierarchy
+ *
+ * @package Thematic
+ * @subpackage Templates
  */
 
-get_header(); ?>
+	// calling the header.php
+	get_header();
+	
+	// action hook for placing content above #container
+	thematic_abovecontainer();
+?>
 
-<div id="main" class="site-main blogroll <?php integer_grid_class(); ?>" role="main">
+		<div id="container">
 
-	<?php if ( have_posts() ) : ?>
+			<?php
+		    	// action hook for placing content above #content
+				thematic_abovecontent();
+				
+				// filter for manipulating the element that wraps the content 
+				echo apply_filters( 'thematic_open_id_content', '<div id="content">' . "\n\n" );
+				
+				// create the navigation above the content
+            	thematic_navigation_above();
+				
+            	// calling the widget area 'index-top'
+            	get_sidebar('index-top');
+				
+            	// action hook for placing content above the index loop
+            	thematic_above_indexloop();
+				
+            	// action hook creating the index loop
+            	thematic_indexloop();
+				
+            	// action hook for placing content below the index loop
+            	thematic_below_indexloop();
+				
+            	// calling the widget area 'index-bottom'
+            	get_sidebar('index-bottom');
+				
+            	// create the navigation below the content
+            	thematic_navigation_below();
+            ?>
 
-		<?php while ( have_posts() ) : the_post(); ?>
+			</div><!-- #content -->
 
-			<?php get_template_part( 'template-parts/content' ); ?>
-
-		<?php endwhile; ?>
-
-		<?php
-			the_posts_pagination( array(
-				'prev_text' => 'Newer',
-				'next_text' => 'Older',
-			) );
-		?>
-
-	<?php else : ?>
-
-		<?php get_template_part( 'template-parts/content', 'none' ); ?>
-
-	<?php endif; ?>
-
-</div><!-- #main -->
-
-<?php get_sidebar(); ?>
-
-<?php get_footer();
+			<?php
+				// action hook for placing content below #content
+				thematic_belowcontent();
+			?>
+		</div><!-- #container -->
+		
+<?php
+	// action hook for placing content below #container
+	thematic_belowcontainer();
+	
+	// calling the standard sidebar 
+	thematic_sidebar();
+	
+	// calling footer.php
+	get_footer();
+?>
