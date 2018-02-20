@@ -109,3 +109,7 @@ pre {
 #content {
 	width: 940px;
 }
+ 
+body, input, textarea {
+    font: 16px Arial,sans-serif;
+}
